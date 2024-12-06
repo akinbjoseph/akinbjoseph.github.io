@@ -10,295 +10,258 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
         }
 
         body {
             background-color: #f5f5f5;
-            line-height: 1.6;
-            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            width: 90%;
             background: white;
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 2rem;
         }
 
         h1 {
             font-size: 2rem;
             margin-bottom: 1.5rem;
-            text-align: center;
             color: #333;
+            text-align: center;
         }
 
         h2 {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
+            margin: 1rem 0;
             color: #444;
         }
 
         p {
-            margin-bottom: 1.5rem;
-            color: #555;
-        }
-
-        .content {
-            flex-grow: 1;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #e2d5d5;
-            color: #333;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 10px;
-            text-align: center;
-        }
-
-        .button:hover {
-            background-color: #d4c1c1;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 1rem;
         }
 
         .form-group {
             margin-bottom: 1.5rem;
         }
 
-        .form-group label {
+        label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #444;
+            color: #555;
         }
 
         select, input {
             width: 100%;
-            padding: 8px;
+            padding: 0.75rem;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 1rem;
         }
 
-        #chart-container {
-            margin: 2rem 0;
-            height: 400px;
+        .button {
+            background-color: #e2d5d5;
+            color: #333;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            width: fit-content;
+            margin: 1.5rem auto;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #d4c3c3;
         }
 
         .page {
             display: none;
         }
 
-        .page.active {
+        .active {
             display: block;
         }
 
-        .loading {
+        .chart-container {
+            margin-top: 2rem;
+        }
+
+        .disclaimer {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 1.5rem;
+        }
+
+        .data-source {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 1.5rem;
+        }
+
+        a {
+            color: #666;
+            text-decoration: underline;
+        }
+
+        .loading-dots {
             display: flex;
             justify-content: center;
             margin: 2rem 0;
         }
 
-        .loading div {
-            width: 12px;
-            height: 12px;
-            margin: 0 4px;
+        .dot {
+            width: 15px;
+            height: 15px;
+            margin: 0 5px;
+            background-color: #ccc;
             border-radius: 50%;
-            background-color: #888;
-            animation: loading 1.5s infinite;
+            animation: pulse 1.4s infinite ease-in-out;
         }
 
-        @keyframes loading {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .dot:nth-child(3) { animation-delay: 0s; }
 
-        .loading div:nth-child(2) { animation-delay: 0.2s; }
-        .loading div:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes pulse {
+            0%, 80%, 100% { 
+                transform: scale(0);
+                background-color: #ddd;
+            }
+            40% { 
+                transform: scale(1);
+                background-color: #999;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Page 1 -->
         <div id="page1" class="page active">
-            <div class="content">
-                <h1>RealBias: How Accurate Is Your Oximeter Reading?</h1>
-                <p>A pulse oximeter—that small device clipped to your finger at the hospital—might be less accurate depending on your skin color. Studies show these devices are three times more likely to miss dangerously low oxygen levels in Black patients compared to White patients.</p>
-                
-                <h2>Are You Getting the Right Reading?</h2>
-                <p>We analyzed nearly 50,000 pulse oximeter measurements from hospitals across the US, comparing device readings to actual blood oxygen levels. Our findings revealed significant accuracy gaps across different demographic groups.</p>
-                
-                <div style="text-align: center;">
-                    <button onclick="showPage('page2')" class="button">Check Your Risk</button>
-                </div>
-            </div>
+            <h1>RealBias: How Accurate Is Your Oximeter Reading?</h1>
+            <p>A pulse oximeter—that small device clipped to your finger at the hospital—might be less accurate depending on your skin color. Studies show these devices are three times more likely to miss dangerously low oxygen levels in Black patients compared to White patients.</p>
+            <h2>Are You Getting the Right Reading?</h2>
+            <p>We analyzed nearly 50,000 pulse oximeter measurements from hospitals across the US, comparing device readings to actual blood oxygen levels. Our findings revealed significant accuracy gaps across different demographic groups.</p>
+            <button class="button" onclick="showPage('page2')">Check Your Risk</button>
         </div>
 
-        <!-- Page 2 -->
         <div id="page2" class="page">
-            <div class="content">
-                <h1>Check Your Risk</h1>
-                <p>Find out how likely you are to get an inaccurate reading based on real patient data from your background:</p>
-                
-                <div class="form-group">
-                    <label>Region</label>
-                    <select id="region">
-                        <option value="">Select your location in the US</option>
-                        <option value="northeast">Northeast</option>
-                        <option value="midwest">Midwest</option>
-                        <option value="south">South</option>
-                        <option value="west">West</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Age</label>
-                    <input type="number" id="age" placeholder="Enter your age" min="0" max="120">
-                </div>
-
-                <div class="form-group">
-                    <label>Race/Ethnicity</label>
-                    <select id="race" required>
-                        <option value="">Select your background</option>
-                        <option value="1.9943">Black</option>
-                        <option value="1.6959">American Indian / Alaska Native</option>
-                        <option value="1.6156">Asian</option>
-                        <option value="1.5796">Hispanic OR Latino</option>
-                        <option value="1.3783">Unknown</option>
-                        <option value="1.3280">White</option>
-                    </select>
-                </div>
-
-                <div style="text-align: center;">
-                    <button onclick="showPage('page3')" class="button">Let's go</button>
-                </div>
+            <h1>Check Your Risk</h1>
+            <p>Find out how likely you are to get an inaccurate reading based on real patient data from your background:</p>
+            <div class="form-group">
+                <label for="region">Region</label>
+                <select id="region">
+                    <option>Select your location in the US</option>
+                    <option>Northeast</option>
+                    <option>Southeast</option>
+                    <option>Midwest</option>
+                    <option>Southwest</option>
+                    <option>West</option>
+                </select>
             </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" placeholder="Enter your age">
+            </div>
+            <div class="form-group">
+                <label for="race">Race/Ethnicity</label>
+                <select id="race">
+                    <option>Select your background</option>
+                    <option value="1.6959">American Indian/Alaska Native</option>
+                    <option value="1.6156">Asian</option>
+                    <option value="1.9943">Black</option>
+                    <option value="1.5796">Hispanic OR Latino</option>
+                    <option value="1.3783">Unknown</option>
+                    <option value="1.3280">White</option>
+                </select>
+            </div>
+            <button class="button" onclick="showPage('page3')">Lets go</button>
         </div>
 
-        <!-- Page 3 -->
         <div id="page3" class="page">
-            <div class="content">
-                <h1>Analyzing Your Risk</h1>
-                <div class="loading">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <p style="text-align: center;">Using data from the BOLD study, we'll show you the percentage of incorrect readings for people with similar characteristics to you, and what this means for your medical care.</p>
-                
-                <div style="text-align: center;">
-                    <button onclick="showPage('page4')" class="button">Continue</button>
-                </div>
+            <h1>Analyzing Your Risk</h1>
+            <div class="loading-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
+            <p>Based on our analysis of data from the BOLD study, we'll provide insights into how likely individuals with your background are to receive an inaccurate oximeter readings. We'll also compare these findings with results for individuals from other demographic groups to provide a broader perspective.</p>
+            <button class="button" onclick="showPage('page4')">Continue</button>
         </div>
 
-        <!-- Page 4 -->
         <div id="page4" class="page">
-            <div class="content">
-                <h1>Your Risk</h1>
-                <p id="risk-text" style="text-align: center;">People with your background experience an error of <span id="error-rate">--</span>% for any given oximeter reading.</p>
-                
-                <h2>Given below are the average error rates for people from different  racial demographics</h2>
-                <div id="chart-container">
-                    <canvas id="errorChart"></canvas>
-                </div>
-
-                <div class="nav-buttons">
-                    <button onclick="showPage('page1')" class="button">Go Back</button>
-                    <button onclick="showExplanation()" class="button">Why is there a racial bias?</button>
-                </div>
+            <h1>Your Risk</h1>
+            <p id="error-rate"></p>
+            <div class="chart-container">
+                <canvas id="errorChart"></canvas>
             </div>
+            <p class="disclaimer">Please note: This error rate is an approximation based on our analysis of the BOLD dataset and may not accurately reflect your individual experience with pulse oximeter readings. Many factors can influence the accuracy of readings.</p>
+            <p class="data-source">Data Source: This analysis uses data from the <a href="https://physionet.org/content/blood-gas-oximetry/1.0/" target="_blank">BOLD (Blood Gas and Oxygen Saturation) dataset</a>, which provides valuable insights into pulse oximeter accuracy across different demographic groups.</p>
+            <button class="button" onclick="goBack()">Go Back</button>
+            <a href="https://publichealth.jhu.edu/2024/pulse-oximeters-racial-bias#:~:text=In%20a%20December%202020%20research,pulse%20oximeter%20and%20ABG%20readings" target="_blank" class="button">Why is there a racial bias?</a>
         </div>
     </div>
 
     <script>
         let currentPage = 1;
-        let chart = null;
-
-        const errorData = [
-            { race: "Black", value: 1.9943, color: "#4CAF50" },
-            { race: "American Indian / Alaska Native", value: 1.6959, color: "#2196F3" },
-            { race: "Asian", value: 1.6156, color: "#FFC107" },
-            { race: "Hispanic OR Latino", value: 1.5796, color: "#9C27B0" },
-            { race: "Unknown", value: 1.3783, color: "#607D8B" },
-            { race: "White", value: 1.3280, color: "#795548" }
-        ].sort((a, b) => b.value - a.value);
+        const data = {
+            labels: ['Black', 'American Indian/Alaska Native', 'Asian', 'Hispanic OR Latino', 'Unknown', 'White'],
+            datasets: [{
+                data: [1.9943, 1.6959, 1.6156, 1.5796, 1.3783, 1.3280],
+                backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#FF5722', '#9C27B0', '#795548'],
+            }]
+        };
 
         function showPage(pageId) {
-            if (pageId === 'page4') {
-                const raceSelect = document.getElementById('race');
-                const errorRate = raceSelect.value;
-                if (!errorRate) {
-                    alert('Please select your race/ethnicity before continuing.');
-                    return;
-                }
-                document.getElementById('error-rate').textContent = errorRate;
-                setTimeout(createChart, 100);
-            }
-
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-        }
-
-        function createChart() {
-            if (chart) {
-                chart.destroy();
-            }
-
-            const ctx = document.getElementById('errorChart').getContext('2d');
-            chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: errorData.map(d => d.race),
-                    datasets: [{
-                        label: 'Mean Relative Error',
-                        data: errorData.map(d => d.value),
-                        backgroundColor: errorData.map(d => d.color),
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
+            
+            if (pageId === 'page4') {
+                const race = document.getElementById('race');
+                const errorRate = race.value;
+                document.getElementById('error-rate').textContent = `People with your background experience an average error of ${errorRate}% for any given oximeter reading.`;
+                
+                const ctx = document.getElementById('errorChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        indexAxis: 'y',
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
                             title: {
                                 display: true,
-                                text: 'Mean Relative Error'
+                                text: 'Mean Relative Error by Subgroup'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true
                             }
                         }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
                     }
-                }
-            });
+                });
+            }
         }
 
-        function showExplanation() {
-            alert('This feature would explain the technical and historical reasons for the racial bias in pulse oximeter readings.');
+        function goBack() {
+            showPage('page2');
         }
     </script>
 </body>
